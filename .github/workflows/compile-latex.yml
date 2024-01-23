@@ -1,29 +1,39 @@
-name: Compile LaTeX on Tag
-
+name: Release Compiled PDF 
 on:
   push:
     tags:
-      - '*'
+      - '*.*.*'
 
 jobs:
-  build:
+  build_latex:
+    permissions: write-all
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: main.tex
 
-    - name: Setup LaTeX
-      uses: docker://blang/latex:ubuntu
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
 
-    - name: Compile LaTeX
-      run: |
-        pdflatex -interaction=nonstopmode -halt-on-error main.tex
-        pdflatex -interaction=nonstopmode -halt-on-error main.tex
-        # Add more commands if needed, e.g., bibtex, makeindex, etc.
-
-    - name: Upload PDF as Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: compiled-pdf
-        path: main.pdf
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} 
+          asset_path: ./main.pdf
+          asset_name: main.pdf
+          asset_content_type: pdf
