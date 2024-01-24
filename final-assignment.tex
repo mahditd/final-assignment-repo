@@ -1,14 +1,22 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
+\usepackage{fancyhdr}
+\pagestyle{fancy}
 
 \title{final-assignment-project}
 \author{mahdi td}
 \date{Bahman 1402}
 
 \begin{document}
-
+\cfoot{\thepage}
+\lhead{\thepage}
 \maketitle
 \newpage
+
+\tableofcontents
+\fancyhead[R]{\textbf{CONTENTS}}
+\newpage
+\fancyhead[R]{\textbf{Git and Exploration}}
 \section{Git and GitHub}
 \subsection{Repository Initialization and Commits}
 At first I got into the github website opened my account and went into the repositories menu and created a new repository named finale-assignment-repo with having a readme file inside it.
@@ -33,8 +41,33 @@ Valgrind is a powerful tool that can help detect memory leaks and other memory-r
 \subsection{GNU/Linux Bash Scripting}
 \subsubsection{fzf}
 Fuzzy searching is like a smart way of looking for things on a computer. Instead of needing things to be exactly the same, it's okay if there are a few mistakes, like misspelled words. So, even if you don't type everything perfectly, the computer can still find what you're looking for and show you results that are pretty close. It's like a helpful tool that understands that people might make small errors when searching for information.\\
-when you run ls  fzf, it makes a list of files and directories in the current directory using ls, and then passes that list to fzf for searching and finding what you want in a different way.
+when you run ls l fzf, it makes a list of files and directories in the current directory using ls, and then passes that list to fzf for searching and finding what you want in a different way.
 \subsubsection{Using fzf to find your favorite PDF}
+fd -e pdf\\
+This command searches for files with the .pdf extension using the fd command.\\
+fd -e pdf l fzf - -query="riazi1"\\
+This command uses fd to find all files with the .pdf extension, and then pipes the result to fzf. The - -query="riazi1" option sets the initial search in fzf to "riazi1", allowing you to filter the list and quickly locate the PDF file you're interested in.
+\subsubsection{Opening the file using Zathura}
+zathura "\$(fd -e pdf l fzf - -query="riazi1")"\\
+This command uses fd to find all PDF files, then pipes the result to fzf for interactive selection. The selected PDF file is then passed to the zathura command using command \$. Replace "riazi1" with the actual file you're looking for.
+\section{Git and FOSS}
+\subsection{Issues}
+screen shots are included in next page.
+\newpage
+\fancyhead[R]{\textbf{screen shots}}
+\begin{figure}
+\begin{center}
+    
+
+    \includegraphics[width=0.8\linewidth]{Screenshot (32).png}
+    \caption{issues first screenshot}
+    \includegraphics[width=0.8\linewidth]{Screenshot (33).png}
+    \caption{issues second screenshot}
+    \end{center}
+\end{figure}
+
+
+
 
 
 
